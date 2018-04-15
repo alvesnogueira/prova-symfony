@@ -1,0 +1,100 @@
+RewriteEngine On
+RewriteCond %{SCRIPT_FILENAME} !-f
+RewriteCond %{SCRIPT_FILENAME} !-d
+RewriteRule ^(.*)$ index.php
+
+#  rewrite example.com → www.example.com
+
+# Be aware that the following might not be a good idea if you use "real"
+# subdomains for certain parts of your website.
+# ServerName localhost
+# <IfModule mod_rewrite.c>
+#     RewriteCond %{HTTPS} !=on
+#     RewriteCond %{HTTP_HOST} !^www\..+$ [NC]
+#     RewriteCond %{HTTP_HOST} !=localhost [NC]
+#     RewriteCond %{HTTP_HOST} !=127.0.0.1
+#     RewriteRule ^ http://www.%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+# </IfModule>
+
+
+<IfModule mod_deflate.c>
+
+	</IfModule>
+#
+# KeepAlive: Whether or not to allow persistent connections (more than
+# one request per connection). Set to "Off" to deactivate.
+#
+# KeepAlive On
+
+#
+# MaxKeepAliveRequests: The maximum number of requests to allow
+# during a persistent connection. Set to 0 to allow an unlimited amount.
+# We recommend you leave this number high, for maximum performance.
+#
+# MaxKeepAliveRequests 100
+
+#
+# KeepAliveTimeout: Number of seconds to wait for the next request from the
+# same client on the same connection.
+#
+# KeepAliveTimeout 100
+
+<IfModule mod_expires.c>
+
+    ExpiresActive on
+    ExpiresDefault                                      "access plus 1 month"
+
+  # CSS
+    ExpiresByType text/css                              "access plus 1 month"
+
+  # Data interchange
+    ExpiresByType application/json                      "access plus 0 seconds"
+    ExpiresByType application/ld+json                   "access plus 0 seconds"
+    ExpiresByType application/schema+json               "access plus 0 seconds"
+    ExpiresByType application/vnd.geo+json              "access plus 0 seconds"
+    ExpiresByType application/xml                       "access plus 0 seconds"
+    ExpiresByType text/xml                              "access plus 0 seconds"
+
+  # Favicon (cannot be renamed!) and cursor images
+    ExpiresByType image/x-icon                          "access plus 1 week"
+
+  # HTML components (HTCs)
+    ExpiresByType text/x-component                      "access plus 1 month"
+
+  # HTML
+    ExpiresByType text/html                             "access plus 0 seconds"
+
+  # JavaScript
+    ExpiresByType application/javascript                "access plus 1 hour"
+    ExpiresByType text/javascript                       "access plus 1 hour"
+
+  # Manifest files
+    ExpiresByType application/manifest+json             "access plus 1 year"
+    ExpiresByType application/x-web-app-manifest+json   "access plus 0 seconds"
+    ExpiresByType text/cache-manifest                   "access plus 0 seconds"
+
+  # Media files
+    ExpiresByType audio/ogg                             "access plus 1 week"
+    ExpiresByType image/gif                             "access plus 1 week"
+    ExpiresByType image/jpeg                            "access plus 1 week"
+    ExpiresByType image/png                             "access plus 1 week"
+    ExpiresByType video/mp4                             "access plus 1 week"
+    ExpiresByType video/ogg                             "access plus 1 week"
+    ExpiresByType video/webm                            "access plus 1 week"
+
+  # Web feeds
+    ExpiresByType application/atom+xml                  "access plus 1 hour"
+    ExpiresByType application/rdf+xml                   "access plus 1 hour"
+    ExpiresByType application/rss+xml                   "access plus 1 hour"
+
+  # Web fonts
+    ExpiresByType application/font-woff                 "access plus 1 month"
+    ExpiresByType application/font-woff2                "access plus 1 month"
+    ExpiresByType application/vnd.ms-fontobject         "access plus 1 month"
+    ExpiresByType application/x-font-ttf                "access plus 1 month"
+    ExpiresByType font/opentype                         "access plus 1 month"
+    ExpiresByType image/svg+xml                         "access plus 1 month"
+
+</IfModule>
+
+
