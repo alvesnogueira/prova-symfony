@@ -13,24 +13,71 @@ class DefaultController extends Controller
 {
 
     /**
-     * @Route("/")
+     * @Route("/",name="home_users")
      * @Method({"GET"})
      */
-    public function homepage()
+    public function homepage(Request $resquest)
     {
          return $this->render('index.html.twig', [
              'name' => 'teste',
          ]);
     }
     /**
+     * @Route("/user/edit/{id}",name="edit_users")
+     * @Method({"GET"})
+     */
+    public function editUser(Request $request,$id)
+    {
+        $base_url = $request->server->get('HTTP_HOST');
+        $users = $this->getDoctrine()
+                      ->getRepository(User::class)
+                      ->find($id);
+        if($users)
+        {
+            //return $this->redirect($this->generateUrl('home_users', ['users' => $users]));
+            return $this->render('index.html.twig', [
+                'users' => $users,
+                'base_url' => $base_url
+            ]);
+        }
+        else
+        {
+            $this->addFlash('notice', 'Usuario não localizado');
+            return $this->redirect($this->generateUrl('list_users'));
+        }
+
+    }
+    /**
+     * @Route("/endereco/user/edit/{id}")
+     * @Method({"POST"})
+     */
+    public function enderecoUserEdit(Request $request,$id)
+    {
+        $base_url = $request->server->get('HTTP_HOST');
+        $users = $this->getDoctrine()
+                      ->getRepository(User::class)
+                      ->find($id);
+        if($users)
+        {
+            $this->recebeForm($request, $id);
+            return $this->redirect($this->generateUrl('list_users'));
+        }
+        else
+        {
+            $this->addFlash('notice', 'Usuario não localizado');
+            return $this->redirect($this->generateUrl('list_users'));
+        }
+
+    }
+    /**
      * @Route("/listar",name="list_users")
      * @Method({"GET"})
      */
-    public function listaDados()
+    public function listaUser()
     {
         $users = $this->getDoctrine()
-                 ->getRepository(User::class)
-                 ->findAll();
+                      ->getRepository(User::class)
+                      ->findAll();
 
         return $this->render('lista.html.twig', [
             'users' => $users,
@@ -45,8 +92,8 @@ class DefaultController extends Controller
     public function deleteUser(Request $request, $id)
     {
         $users = $this->getDoctrine()
-                 ->getRepository(User::class)
-                 ->find($id);
+                      ->getRepository(User::class)
+                      ->find($id);
         if($users)
         {
             $entityManager = $this->getDoctrine()->getManager();
@@ -65,7 +112,7 @@ class DefaultController extends Controller
     /**
      * @Route("/endereco/save")
      */
-    public function recebeForm(Request $request){
+    public function recebeForm(Request $request, $id = null){
         $erros = [];
         if($request->get('nome') == '')
         {
@@ -98,10 +145,17 @@ class DefaultController extends Controller
             $dados['cep'] = $cep;
             $dados['bairro'] = $request->get('bairro');
             $dados['logradouro'] = $request->get('logradouro');
-            $retorno = $this->saveEndereco($dados);
+            $retorno = $this->savaEndereco($dados, $id);
             if($retorno)
             {
-                $this->addFlash('notice', 'Endereço cadastrado com sucesso');
+                if($id)
+                {
+                    $this->addFlash('notice', 'Dados atualizados com sucesso');
+                }
+                else
+                {
+                    $this->addFlash('notice', 'Endereço cadastrado com sucesso');
+                }
             }
             else
             {
@@ -118,7 +172,7 @@ class DefaultController extends Controller
     /**
      *
      */
-    private function saveEndereco($dados){
+    private function savaEndereco($dados, $id = null){
         $entityManager = $this->getDoctrine()->getManager();
         $user = new User();
         $user->setName($dados['nome']);
@@ -127,7 +181,16 @@ class DefaultController extends Controller
         $user->setCep($dados['cep']);
         $user->setBairro($dados['bairro']);
         $user->setLogradouro($dados['logradouro']);
-        $entityManager->persist($user);
+        if($id != null)
+        {
+            $user->setId($id);
+            $entityManager->merge($user);
+        }
+        else
+        {
+            $entityManager->persist($user);
+
+        }
         $entityManager->flush();
         return $user->getId();
     }

@@ -2,6 +2,9 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        {% if base_url is defined %}
+            <base href="http://{{base_url}}/">
+        {% endif %}
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
     </head>
