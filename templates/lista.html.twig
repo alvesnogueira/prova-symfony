@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/chosen.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+{% endblock %}
+{% block body %}
+
+
+<div class="container">
+    {% for message in app.flashes('notice') %}
+        <div class="alert alert-warning alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <div class="header clearfix">
+    <nav>
+      <ul class="nav nav-pills pull-right">
+        <li ><a href="/">Home</a></li>
+        <li class="active" ><a href="/listar">Listar</a></li>
+      </ul>
+    </nav>
+    <h3 class="text-muted">Lista</h3>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <table class="table">
+                    <caption>Usuarios</caption>
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>Nome</th>
+                            <th>Uf</th>
+                            <th>Cep</th>
+                            <th>Cidade</th>
+                            <th>Bairro</th>
+                            <th>Rua</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                            <tr>
+                                <td>{{user.id}}</td>
+                                <td>{{user.name}}</td>
+                                <td>{{user.uf}}</td>
+                                <td>{{user.cep}}</td>
+                                <td>{{user.cidade}}</td>
+                                <td>{{user.bairro}}</td>
+                                <td>{{user.logradouro}}</td>
+                                <td><a class="btn btn-danger" href="/user/delete/{{user.id}}" title="">Excluir</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+<script src="/assets/js/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"  ></script>
+<script src="/assets/js/bootstrap.min.js" type="text/javascript" charset="utf-8"  ></script>
+<script src="/assets/js/chosen.jquery.min.js" type="text/javascript" charset="utf-8"  ></script>
+<script src="/assets/js/main.js" type="text/javascript" charset="utf-8" async defer></script>
+<script src="/assets/js/jquery.blockUI.js" type="text/javascript" charset="utf-8" ></script>
+<script src="/assets/js/jquery.mask.js" type="text/javascript" charset="utf-8" ></script>
+<script src="/assets/js/jquery.validate.js" type="text/javascript" charset="utf-8" ></script>
+{% endblock %}
