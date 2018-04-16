@@ -23,7 +23,7 @@ class DefaultController extends Controller
          ]);
     }
     /**
-     * @Route("/listar")
+     * @Route("/listar",name="list_users")
      * @Method({"GET"})
      */
     public function listaDados()
@@ -35,6 +35,31 @@ class DefaultController extends Controller
         return $this->render('lista.html.twig', [
             'users' => $users,
         ]);
+
+    }
+
+    /**
+     * @Route("/user/delete/{id}")
+     * @Method({"GET"})
+     */
+    public function deleteUser(Request $request, $id)
+    {
+        $users = $this->getDoctrine()
+                 ->getRepository(User::class)
+                 ->find($id);
+        if($users)
+        {
+            $entityManager = $this->getDoctrine()->getManager();
+            $delete = $entityManager->remove($users);
+            $entityManager->flush();
+            $this->addFlash('notice', 'Usuario excluido com sucesso');
+        }
+        else
+        {
+            $this->addFlash('notice', 'Usuario não cadastrado');
+        }
+        //return $this->redirect($this->generateUrl('list_users', array('id' => $entity->getId())));
+        return $this->redirect($this->generateUrl('list_users'));
 
     }
     /**

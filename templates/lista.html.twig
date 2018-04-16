@@ -38,21 +38,33 @@
                             <th>Cidade</th>
                             <th>Bairro</th>
                             <th>Rua</th>
+                            <th>Ações</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for user in users %}
+                        {% if users|length > 0 %}
+                            {% for user in users %}
+                                <tr>
+                                    <td>{{user.id}}</td>
+                                    <td>{{user.name}}</td>
+                                    <td>{{user.uf}}</td>
+                                    <td>{{user.cep}}</td>
+                                    <td>{{user.cidade}}</td>
+                                    <td>{{user.bairro}}</td>
+                                    <td>{{user.logradouro}}</td>
+                                    <td>
+                                        <a class="btn btn-danger" href="/user/delete/{{user.id}}" title="">Excluir</a>
+                                        <a class="btn btn-primary" href="/user/edit/{{user.id}}" title="">Editar</a>
+                                    </td>
+
+                                </tr>
+                            {% endfor %}
+                        {% else %}
                             <tr>
-                                <td>{{user.id}}</td>
-                                <td>{{user.name}}</td>
-                                <td>{{user.uf}}</td>
-                                <td>{{user.cep}}</td>
-                                <td>{{user.cidade}}</td>
-                                <td>{{user.bairro}}</td>
-                                <td>{{user.logradouro}}</td>
-                                <td><a class="btn btn-danger" href="/user/delete/{{user.id}}" title="">Excluir</a></td>
+                                <td colspan="7" rowspan="" headers="">Nenhum dado encontrado</td>
                             </tr>
-                        {% endfor %}
+                       {% endif %}
+
                     </tbody>
                 </table>
             </div>
