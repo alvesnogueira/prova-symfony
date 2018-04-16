@@ -2,6 +2,7 @@
 Criar um projeto com o symfony
 
 1. Clone a url da maquina no repositório ``` https://github.com/alvesnogueira/vagrant-with-php7 ```
+1. Faça as configurações, do repositório vagrant.
 1. Dentro da pasta ``` awesome ``` Clone este projeto.
 1. Execute o comando ```vagrant ssh```
 1. Acesse a pasta do projeto dentro da máquina virtual ```/var/www/awesome/website-skeleton```
@@ -16,3 +17,4 @@ $ php bin/console doctrine:migrations:diff
 ```DATABASE_URL=mysql://db_user:db_password@127.0.0.1:3306/db_name```
 <br>para: <br>
 ```DATABASE_URL=mysql://dbuser:123@127.0.0.1:3306/dbprova ```
+1.Acesse a url prova.test
